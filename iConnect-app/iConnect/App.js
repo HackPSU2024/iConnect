@@ -1,5 +1,5 @@
 import {React, useEffect, useState, useRef } from 'react';
-import { View, StyleSheet, ScrollView, Button, Text, Linking} from 'react-native';
+import { View, StyleSheet, ScrollView, Button, Text, Linking, TextInput, Alert} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Card from './compenents/Card';
@@ -55,7 +55,7 @@ function Wallet() {
   const fetchData = async () => {
     try {
       // TODO: get the ip
-      const response = await fetch('http://104.39.240.107:5000/api/data');
+      const response = await fetch('http://104.39.133.7:5000/api/data');
       console.log(response);
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -88,13 +88,13 @@ function Wallet() {
   );
 }
 function UserInfo() {
-   const [name, setName]= useState([]);
-   const [occupation, setOccupation]= useState([]);
-   const [description, setDescription]= useState([]);
+   const [name, setName]= useState("");
+   const [occupation, setOccupation]= useState("");
+   const [description, setDescription]= useState("");
 
    const sendData = async () => {
       try {
-         const response = await fetch('http://10.0.2.2:5000/api/send', {
+         const response = await fetch('http://104.39.133.7:5000/api/send', {
             method: "POST", 
             headers: {'Content-Type': 'application/json'}, 
             body: JSON.stringify({
