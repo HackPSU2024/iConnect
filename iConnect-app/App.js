@@ -1,10 +1,11 @@
 import {React, useEffect, useState, useRef } from 'react';
-import { View, StyleSheet, ScrollView, Button, Text, Linking} from 'react-native';
+import { View, StyleSheet, ScrollView, Button, Text, Linking, TouchableOpacity} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Card from './compenents/Card';
 
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { WebView } from 'react-native-webview';
 
 
 const Tab = createBottomTabNavigator();
@@ -89,6 +90,7 @@ function Wallet() {
 function Scanner() {
   const [hasPermision, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [qrData, setQrData] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -99,7 +101,25 @@ function Scanner() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${Linking.openURL(`${data}`)} has been scanned`);
+    // alert(`Bar code with type ${type} and data ${Linking.openURL(`${data}`)} has been scanned`);
+    // Linking.openURL(data);
+    setQrData(data);
+  }
+
+  const handleScanAgain = () => {
+    setScanned(false);
+    setQrData(null);
+    return (
+      <View style={styles.container}>
+      
+      <BarCodeScanner 
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style = {StyleSheet.absoluteFillObject}
+      />
+      {scanned && <Button title="Tap to Scan Again" onPress={() => setScanned(false)} />}
+
+    </View>
+    );
   }
 
   if (hasPermision === null) {
@@ -109,10 +129,33 @@ function Scanner() {
     return <Text>No Access to Camera</Text>
   }
 
+  if (qrData) {
+    return (
+      <View style={{ flex: 1 }}>
+        <Button title="scan again"/>
+        <WebView style={styles.browserContainer} source={{ uri: qrData }} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
 
-      <Text>this is the scanner page</Text>
+      {/* <TouchableOpacity
+        onPress={() => {
+          // Handle button press action
+          // For example, navigate to another screen
+          navigation.navigate('Settings'); // Replace 'Settings' with the screen you want to navigate
+        }}
+      >
+        <Text>Button</Text>
+      </TouchableOpacity>
+
+      <View style={styles.buttonContainer}>
+        <Button title="Scan Again" onPress={handleScanAgain} />
+      </View> */}
+      <Button title="scan again" onPress={handleScanAgain}/>
+      
       <BarCodeScanner 
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style = {StyleSheet.absoluteFillObject}
@@ -122,11 +165,32 @@ function Scanner() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  button: {
+    marginRight: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: 'gray',
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  browserContainer: {
+    width: '80%', // Adjust this value as needed
+    aspectRatio: 1, // Ensure the aspect ratio remains square
+    overflow: 'hidden', // Clip any overflow
+    borderRadius: 10, // Rounded corners for aesthetics
+    borderWidth: 1, // Optional: Add border for clarity
+    borderColor: 'gray', // Optional: Border color
+  },
+  browser: {
+    ...StyleSheet.absoluteFillObject, // Take up entire space of scannerContainer
   },
 });
