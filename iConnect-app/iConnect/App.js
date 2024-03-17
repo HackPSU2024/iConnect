@@ -1,6 +1,6 @@
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, FlatList, TextInput, Button } from 'react-native';
+import { View, StyleSheet, ScrollView, FlatList, TextInput, Button, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Card from './compenents/Card';
@@ -98,12 +98,10 @@ function UserInfo() {
                imageUrl:'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+name
             })
          });
-         console.log(response);
          if (!response.ok) {
             throw new Error('Network response was not ok');
          }
-         // const jsonData = await response.json();
-         // setData(jsonData);
+         Alert.alert("Card submitted! :)");
       } catch (error) {
          console.error('Error fetching data:', error);
       }
