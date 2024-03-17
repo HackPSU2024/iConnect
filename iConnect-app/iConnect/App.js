@@ -70,6 +70,7 @@ function Wallet() {
 
   return (
     <>
+    <Button title='Refresh' onPress={fetchData}></Button>
       <ScrollView>
         <View style={styles.container}>
           {data.map((item, index) => (
@@ -77,8 +78,8 @@ function Wallet() {
                 key={index}
                 myName={item.name}
                 myTitles={item.occupation}
-                imageUrl={require("./image/fakeImage.png")}
-                // imageUrl={item.imageUrl}
+               //  imageUrl={require("./image/fakeImage.png")}
+                imageUrl={item.imageUrl}
                 myDescription={item.description}
             />
           ))}

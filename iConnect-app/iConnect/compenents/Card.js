@@ -7,7 +7,7 @@ const Card = ({ myName, myTitles, imageUrl, myDescription }) => {
     <View style={styles.card}>
       <Text style={styles.myName}>{myName}</Text>
       <Text style={styles.myTitles}>{myTitles}</Text>
-      <Image source={imageUrl} style={styles.image} />
+      <Image source={{uri: imageUrl}} style={styles.image} />
       <Text style={styles.myDescription}>{myDescription}</Text>
     </View>
   );
@@ -26,7 +26,7 @@ const styles = {
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    padding: 10,
+    padding: 10,    
     marginBottom: 20,
   },
   myName: {
@@ -43,7 +43,7 @@ const styles = {
   },
   image: {
     width: '100%',
-    height: 200,
+    height: 300,
     borderRadius: 10,
     marginBottom: 10,
   },
