@@ -35,6 +35,7 @@ app.get('/api/data', async (req, res) => {
     const db = client.db("iConnectDB");
     const collection = db.collection("cards");
     const data = await collection.find({}).toArray();
+    console.log(data);
     res.json(data);
   } catch (err) {
     console.error("Error fetching data from MongoDB:", err);
