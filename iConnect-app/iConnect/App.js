@@ -40,7 +40,6 @@ export default function App() {
   }, []);
 
   const fetchData = async () => {
-   console.log("fetch");
    try {
      const response = await fetch('http://10.0.2.2:5000/api/data');
      console.log(response);
@@ -59,15 +58,18 @@ export default function App() {
     <NavigationContainer> 
     <View>
 
-      <Button title="Fetch Data" onPress={fetchData} />
-      
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <Text style={{ fontSize: 18 }}>User: {item.name} Email: {item.email}</Text>
-        )}
-      />
+   <Button title="Fetch Data" onPress={fetchData} />
+   <>
+      {data.map((item, index) => (
+         <Card
+            myName={item.name}
+            myTitles="Student at PSU"
+            imageUrl={require("./image/fakeImage.png")}
+            myDescription={item.email}
+         />
+         // <Text>User: {item.name} Email: {item.email}</Text>
+      ))}
+   </>
       
     </View>
       <Tab.Navigator>
