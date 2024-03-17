@@ -58,17 +58,17 @@ export default function App() {
   return (
     <NavigationContainer> 
     <View>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', marginVertical: 10 }}>
-        Data from MongoDB
-      </Text>
+
       <Button title="Fetch Data" onPress={fetchData} />
-      {/* <FlatList
+      
+      <FlatList
         data={data}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <Text style={{ fontSize: 18 }}>{item.name}</Text>
+          <Text style={{ fontSize: 18 }}>User: {item.name} Email: {item.email}</Text>
         )}
-      /> */}
+      />
+      
     </View>
       <Tab.Navigator>
         <Tab.Screen name="Home" component={Home} />
